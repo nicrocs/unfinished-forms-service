@@ -1,0 +1,50 @@
+enum Permission {
+  ADMIN
+  USER
+  ITEMCREATE
+  ITEMUPDATE
+  ITEMDELETE
+  PERMISSIONUPDATE
+}
+
+enum QuestionType {
+  SHORTANSWER
+  PARAGRAPH
+  MUTLIPLECHOICE
+  CHECKBOXES
+}
+
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: [Permission] @scalarList(strategy: RELATION)
+}
+
+type Choice {
+  id: ID! @id
+  label: String!
+}
+
+type Question {
+  id: ID! @id
+  type: QuestionType!
+  question: String!
+  description: String
+  choices: [Choice]
+}
+
+type Form {
+  id: ID! @id
+  title: String!
+  description: String!
+  image: String
+  largeImage: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  questions: [Question]
+  user: User!
+}

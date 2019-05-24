@@ -1,0 +1,11 @@
+#endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: https://unfinished-forms-7c621f79c7.herokuapp.com/unfinished-forms/prod
+datamodel: datamodel.prisma
+secret: ${env:PRISMA_SECRET}
+
+hooks:
+  post-deploy:
+    - graphql get-schema -p prisma
+generate:
+  - generator: typescript-client
+    output: ./generated/prisma-client/
