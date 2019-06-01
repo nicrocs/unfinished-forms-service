@@ -5,6 +5,7 @@ const Query = {
   forms: forwardTo("db"),
   form: forwardTo("db"),
   formsConnection: forwardTo("db"),
+  questions: forwardTo("db"),
   me(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       return null;

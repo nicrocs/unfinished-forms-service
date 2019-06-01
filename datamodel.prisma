@@ -34,7 +34,7 @@ type Question {
   type: QuestionType!
   question: String!
   description: String
-  choices: [Choice]
+  form: Form @relation(name: "FormQuestion")
 }
 
 type Form {
@@ -45,6 +45,6 @@ type Form {
   largeImage: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  questions: [Question]
+  questions: [Question] @relation(name: "FormQuestion")
   user: User!
 }

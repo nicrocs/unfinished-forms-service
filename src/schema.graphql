@@ -9,8 +9,14 @@ type Mutation {
     description: String
     image: String
     largeImage: String
+    questions: [QuestionCreateWithoutFormInput]
   ): Form!
-  updateForm(id: ID!, title: String, description: String): Form!
+  updateForm(
+    id: ID!
+    title: String
+    description: String
+    questions: [QuestionCreateWithoutFormInput]
+  ): Form!
   deleteForm(id: ID!): Form
   signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
@@ -22,6 +28,18 @@ type Mutation {
     confirmPassword: String!
   ): User!
   updatePermissions(permissions: [Permission], userId: ID!): User
+  createQuestion(
+    type: QuestionType!
+    question: String!
+    description: String
+    form: FormCreateOneWithoutQuestionsInput!
+  ): Question!
+  updateQuestion(
+    id: ID!
+    question: String
+    description: String
+    type: QuestionType
+  ): Question!
 }
 
 type Query {
@@ -33,6 +51,7 @@ type Query {
   ): [Form]!
   form(where: FormWhereUniqueInput!): Form
   formsConnection(where: FormWhereInput): FormConnection!
+  questions(where: QuestionWhereInput): [Question]!
   me: User
   users: [User]!
 }

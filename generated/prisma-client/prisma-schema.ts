@@ -38,11 +38,6 @@ input ChoiceCreateInput {
   label: String!
 }
 
-input ChoiceCreateManyInput {
-  create: [ChoiceCreateInput!]
-  connect: [ChoiceWhereUniqueInput!]
-}
-
 type ChoiceEdge {
   node: Choice!
   cursor: String!
@@ -58,40 +53,6 @@ enum ChoiceOrderByInput {
 type ChoicePreviousValues {
   id: ID!
   label: String!
-}
-
-input ChoiceScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  label: String
-  label_not: String
-  label_in: [String!]
-  label_not_in: [String!]
-  label_lt: String
-  label_lte: String
-  label_gt: String
-  label_gte: String
-  label_contains: String
-  label_not_contains: String
-  label_starts_with: String
-  label_not_starts_with: String
-  label_ends_with: String
-  label_not_ends_with: String
-  AND: [ChoiceScalarWhereInput!]
-  OR: [ChoiceScalarWhereInput!]
-  NOT: [ChoiceScalarWhereInput!]
 }
 
 type ChoiceSubscriptionPayload {
@@ -112,48 +73,12 @@ input ChoiceSubscriptionWhereInput {
   NOT: [ChoiceSubscriptionWhereInput!]
 }
 
-input ChoiceUpdateDataInput {
-  label: String
-}
-
 input ChoiceUpdateInput {
   label: String
 }
 
-input ChoiceUpdateManyDataInput {
-  label: String
-}
-
-input ChoiceUpdateManyInput {
-  create: [ChoiceCreateInput!]
-  update: [ChoiceUpdateWithWhereUniqueNestedInput!]
-  upsert: [ChoiceUpsertWithWhereUniqueNestedInput!]
-  delete: [ChoiceWhereUniqueInput!]
-  connect: [ChoiceWhereUniqueInput!]
-  set: [ChoiceWhereUniqueInput!]
-  disconnect: [ChoiceWhereUniqueInput!]
-  deleteMany: [ChoiceScalarWhereInput!]
-  updateMany: [ChoiceUpdateManyWithWhereNestedInput!]
-}
-
 input ChoiceUpdateManyMutationInput {
   label: String
-}
-
-input ChoiceUpdateManyWithWhereNestedInput {
-  where: ChoiceScalarWhereInput!
-  data: ChoiceUpdateManyDataInput!
-}
-
-input ChoiceUpdateWithWhereUniqueNestedInput {
-  where: ChoiceWhereUniqueInput!
-  data: ChoiceUpdateDataInput!
-}
-
-input ChoiceUpsertWithWhereUniqueNestedInput {
-  where: ChoiceWhereUniqueInput!
-  update: ChoiceUpdateDataInput!
-  create: ChoiceCreateInput!
 }
 
 input ChoiceWhereInput {
@@ -220,7 +145,21 @@ input FormCreateInput {
   description: String!
   image: String
   largeImage: String
-  questions: QuestionCreateManyInput
+  questions: QuestionCreateManyWithoutFormInput
+  user: UserCreateOneInput!
+}
+
+input FormCreateOneWithoutQuestionsInput {
+  create: FormCreateWithoutQuestionsInput
+  connect: FormWhereUniqueInput
+}
+
+input FormCreateWithoutQuestionsInput {
+  id: ID
+  title: String!
+  description: String!
+  image: String
+  largeImage: String
   user: UserCreateOneInput!
 }
 
@@ -279,7 +218,7 @@ input FormUpdateInput {
   description: String
   image: String
   largeImage: String
-  questions: QuestionUpdateManyInput
+  questions: QuestionUpdateManyWithoutFormInput
   user: UserUpdateOneRequiredInput
 }
 
@@ -288,6 +227,28 @@ input FormUpdateManyMutationInput {
   description: String
   image: String
   largeImage: String
+}
+
+input FormUpdateOneWithoutQuestionsInput {
+  create: FormCreateWithoutQuestionsInput
+  update: FormUpdateWithoutQuestionsDataInput
+  upsert: FormUpsertWithoutQuestionsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: FormWhereUniqueInput
+}
+
+input FormUpdateWithoutQuestionsDataInput {
+  title: String
+  description: String
+  image: String
+  largeImage: String
+  user: UserUpdateOneRequiredInput
+}
+
+input FormUpsertWithoutQuestionsInput {
+  update: FormUpdateWithoutQuestionsDataInput!
+  create: FormCreateWithoutQuestionsInput!
 }
 
 input FormWhereInput {
@@ -466,7 +427,7 @@ type Question {
   type: QuestionType!
   question: String!
   description: String
-  choices(where: ChoiceWhereInput, orderBy: ChoiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Choice!]
+  form: Form
 }
 
 type QuestionConnection {
@@ -480,12 +441,19 @@ input QuestionCreateInput {
   type: QuestionType!
   question: String!
   description: String
-  choices: ChoiceCreateManyInput
+  form: FormCreateOneWithoutQuestionsInput
 }
 
-input QuestionCreateManyInput {
-  create: [QuestionCreateInput!]
+input QuestionCreateManyWithoutFormInput {
+  create: [QuestionCreateWithoutFormInput!]
   connect: [QuestionWhereUniqueInput!]
+}
+
+input QuestionCreateWithoutFormInput {
+  id: ID
+  type: QuestionType!
+  question: String!
+  description: String
 }
 
 type QuestionEdge {
@@ -588,18 +556,11 @@ enum QuestionType {
   CHECKBOXES
 }
 
-input QuestionUpdateDataInput {
-  type: QuestionType
-  question: String
-  description: String
-  choices: ChoiceUpdateManyInput
-}
-
 input QuestionUpdateInput {
   type: QuestionType
   question: String
   description: String
-  choices: ChoiceUpdateManyInput
+  form: FormUpdateOneWithoutQuestionsInput
 }
 
 input QuestionUpdateManyDataInput {
@@ -608,22 +569,22 @@ input QuestionUpdateManyDataInput {
   description: String
 }
 
-input QuestionUpdateManyInput {
-  create: [QuestionCreateInput!]
-  update: [QuestionUpdateWithWhereUniqueNestedInput!]
-  upsert: [QuestionUpsertWithWhereUniqueNestedInput!]
-  delete: [QuestionWhereUniqueInput!]
-  connect: [QuestionWhereUniqueInput!]
-  set: [QuestionWhereUniqueInput!]
-  disconnect: [QuestionWhereUniqueInput!]
-  deleteMany: [QuestionScalarWhereInput!]
-  updateMany: [QuestionUpdateManyWithWhereNestedInput!]
-}
-
 input QuestionUpdateManyMutationInput {
   type: QuestionType
   question: String
   description: String
+}
+
+input QuestionUpdateManyWithoutFormInput {
+  create: [QuestionCreateWithoutFormInput!]
+  delete: [QuestionWhereUniqueInput!]
+  connect: [QuestionWhereUniqueInput!]
+  set: [QuestionWhereUniqueInput!]
+  disconnect: [QuestionWhereUniqueInput!]
+  update: [QuestionUpdateWithWhereUniqueWithoutFormInput!]
+  upsert: [QuestionUpsertWithWhereUniqueWithoutFormInput!]
+  deleteMany: [QuestionScalarWhereInput!]
+  updateMany: [QuestionUpdateManyWithWhereNestedInput!]
 }
 
 input QuestionUpdateManyWithWhereNestedInput {
@@ -631,15 +592,21 @@ input QuestionUpdateManyWithWhereNestedInput {
   data: QuestionUpdateManyDataInput!
 }
 
-input QuestionUpdateWithWhereUniqueNestedInput {
-  where: QuestionWhereUniqueInput!
-  data: QuestionUpdateDataInput!
+input QuestionUpdateWithoutFormDataInput {
+  type: QuestionType
+  question: String
+  description: String
 }
 
-input QuestionUpsertWithWhereUniqueNestedInput {
+input QuestionUpdateWithWhereUniqueWithoutFormInput {
   where: QuestionWhereUniqueInput!
-  update: QuestionUpdateDataInput!
-  create: QuestionCreateInput!
+  data: QuestionUpdateWithoutFormDataInput!
+}
+
+input QuestionUpsertWithWhereUniqueWithoutFormInput {
+  where: QuestionWhereUniqueInput!
+  update: QuestionUpdateWithoutFormDataInput!
+  create: QuestionCreateWithoutFormInput!
 }
 
 input QuestionWhereInput {
@@ -689,9 +656,7 @@ input QuestionWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
-  choices_every: ChoiceWhereInput
-  choices_some: ChoiceWhereInput
-  choices_none: ChoiceWhereInput
+  form: FormWhereInput
   AND: [QuestionWhereInput!]
   OR: [QuestionWhereInput!]
   NOT: [QuestionWhereInput!]

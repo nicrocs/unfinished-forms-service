@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { randomBytes } = require("crypto");
 const { promisify } = require("util");
+const config = require("../../config/project.config");
 const { transport, makeANiceEmail } = require("../mail");
 const { hasPermission } = require("../utils");
 
@@ -29,7 +30,16 @@ const mutations = {
     return form;
   },
   updateForm(parent, args, ctx, info) {
-    const updates = { ...args };
+    // if __typename the question already exists, if not,
+    const questions = args.questions.map(({ id, ...rest }) => ({
+      ...rest
+    }));
+    const updates = {
+      ...args,
+      questions: {
+        create: [...questions]
+      }
+    };
     delete updates.id;
     return ctx.db.mutation.updateForm(
       {
@@ -73,7 +83,10 @@ const mutations = {
       info
     );
     //CREATE JWT TOKEN FOR THEM
-    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+    const token = jwt.sign(
+      { userId: user.id },
+      config[process.env.NODE_ENV].appSecret
+    );
     // We set the jwt as a cookie on the response
     ctx.response.cookie("token", token, {
       httpOnly: true,
@@ -93,7 +106,10 @@ const mutations = {
       throw new Error("Invalid Password!");
     }
     // 3. generate the JWT Token
-    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+    const token = jwt.sign(
+      { userId: user.id },
+      config[process.env.NODE_ENV].appSecret
+    );
     // 4. Set the cookie with the token
     ctx.response.cookie("token", token, {
       httpOnly: true,
@@ -128,7 +144,7 @@ const mutations = {
       html: makeANiceEmail(`Your Password Reset Token is here!
       \n\n
       <a href="${
-        process.env.FRONTEND_URL
+        config[process.env.NODE_ENV].url
       }/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
     });
 
@@ -163,7 +179,10 @@ const mutations = {
       }
     });
     // 6. Generate JWT
-    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
+    const token = jwt.sign(
+      { userId: updatedUser.id },
+      config[process.env.NODE_ENV].appSecret
+    );
     // 7. Set the JWT cookie
     ctx.response.cookie("token", token, {
       httpOnly: true,
@@ -198,6 +217,38 @@ const mutations = {
         },
         where: {
           id: args.userId
+        }
+      },
+      info
+    );
+  },
+  async createQuestion(parent, args, ctx, info) {
+    // check if they are logged in
+    if (!ctx.request.userId) {
+      throw new Error("You must be logged in to do that!");
+    }
+    console.log({ args });
+
+    const question = await ctx.db.mutation.createQuestion(
+      {
+        data: {
+          ...args
+        }
+      },
+      info
+    );
+    return question;
+  },
+  updateQuestion(parent, args, ctx, info) {
+    // first take a copy of the updates
+    const data = { ...args };
+    // remove the ID from the updates
+    delete data.id;
+    return ctx.db.mutation.updateQuestion(
+      {
+        data,
+        where: {
+          id: args.id
         }
       },
       info

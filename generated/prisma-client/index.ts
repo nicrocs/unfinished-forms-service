@@ -280,75 +280,36 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface QuestionCreateManyInput {
-  create?: Maybe<QuestionCreateInput[] | QuestionCreateInput>;
-  connect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
+export interface FormCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  image?: Maybe<String>;
+  largeImage?: Maybe<String>;
+  questions?: Maybe<QuestionCreateManyWithoutFormInput>;
+  user: UserCreateOneInput;
 }
 
 export type ChoiceWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface QuestionUpdateManyWithWhereNestedInput {
-  where: QuestionScalarWhereInput;
-  data: QuestionUpdateManyDataInput;
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
+export interface QuestionUpsertWithWhereUniqueWithoutFormInput {
+  where: QuestionWhereUniqueInput;
+  update: QuestionUpdateWithoutFormDataInput;
+  create: QuestionCreateWithoutFormInput;
 }
 
-export interface ChoiceUpdateWithWhereUniqueNestedInput {
-  where: ChoiceWhereUniqueInput;
-  data: ChoiceUpdateDataInput;
-}
-
-export interface QuestionScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  type?: Maybe<QuestionType>;
-  type_not?: Maybe<QuestionType>;
-  type_in?: Maybe<QuestionType[] | QuestionType>;
-  type_not_in?: Maybe<QuestionType[] | QuestionType>;
-  question?: Maybe<String>;
-  question_not?: Maybe<String>;
-  question_in?: Maybe<String[] | String>;
-  question_not_in?: Maybe<String[] | String>;
-  question_lt?: Maybe<String>;
-  question_lte?: Maybe<String>;
-  question_gt?: Maybe<String>;
-  question_gte?: Maybe<String>;
-  question_contains?: Maybe<String>;
-  question_not_contains?: Maybe<String>;
-  question_starts_with?: Maybe<String>;
-  question_not_starts_with?: Maybe<String>;
-  question_ends_with?: Maybe<String>;
-  question_not_ends_with?: Maybe<String>;
+export interface FormUpdateManyMutationInput {
+  title?: Maybe<String>;
   description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  AND?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
-  OR?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
-  NOT?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
+  image?: Maybe<String>;
+  largeImage?: Maybe<String>;
 }
 
 export interface UserCreateInput {
@@ -361,18 +322,17 @@ export interface UserCreateInput {
   permissions?: Maybe<UserCreatepermissionsInput>;
 }
 
-export interface QuestionUpsertWithWhereUniqueNestedInput {
-  where: QuestionWhereUniqueInput;
-  update: QuestionUpdateDataInput;
-  create: QuestionCreateInput;
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
 }
 
 export type FormWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface ChoiceUpdateManyDataInput {
-  label?: Maybe<String>;
+export interface UserUpdatepermissionsInput {
+  set?: Maybe<Permission[] | Permission>;
 }
 
 export interface FormSubscriptionWhereInput {
@@ -386,6 +346,15 @@ export interface FormSubscriptionWhereInput {
   NOT?: Maybe<FormSubscriptionWhereInput[] | FormSubscriptionWhereInput>;
 }
 
+export interface UserUpdateDataInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  resetToken?: Maybe<String>;
+  resetTokenExpiry?: Maybe<String>;
+  permissions?: Maybe<UserUpdatepermissionsInput>;
+}
+
 export interface ChoiceSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -395,31 +364,6 @@ export interface ChoiceSubscriptionWhereInput {
   AND?: Maybe<ChoiceSubscriptionWhereInput[] | ChoiceSubscriptionWhereInput>;
   OR?: Maybe<ChoiceSubscriptionWhereInput[] | ChoiceSubscriptionWhereInput>;
   NOT?: Maybe<ChoiceSubscriptionWhereInput[] | ChoiceSubscriptionWhereInput>;
-}
-
-export interface UserUpdateInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  resetToken?: Maybe<String>;
-  resetTokenExpiry?: Maybe<String>;
-  permissions?: Maybe<UserUpdatepermissionsInput>;
-}
-
-export interface ChoiceCreateInput {
-  id?: Maybe<ID_Input>;
-  label: String;
-}
-
-export interface QuestionUpdateInput {
-  type?: Maybe<QuestionType>;
-  question?: Maybe<String>;
-  description?: Maybe<String>;
-  choices?: Maybe<ChoiceUpdateManyInput>;
-}
-
-export interface ChoiceUpdateInput {
-  label?: Maybe<String>;
 }
 
 export interface UserWhereInput {
@@ -512,61 +456,7 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface ChoiceUpdateManyMutationInput {
-  label?: Maybe<String>;
-}
-
-export interface FormUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  largeImage?: Maybe<String>;
-}
-
-export interface ChoiceUpdateManyWithWhereNestedInput {
-  where: ChoiceScalarWhereInput;
-  data: ChoiceUpdateManyDataInput;
-}
-
-export interface UserUpdatepermissionsInput {
-  set?: Maybe<Permission[] | Permission>;
-}
-
-export interface ChoiceScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  label?: Maybe<String>;
-  label_not?: Maybe<String>;
-  label_in?: Maybe<String[] | String>;
-  label_not_in?: Maybe<String[] | String>;
-  label_lt?: Maybe<String>;
-  label_lte?: Maybe<String>;
-  label_gt?: Maybe<String>;
-  label_gte?: Maybe<String>;
-  label_contains?: Maybe<String>;
-  label_not_contains?: Maybe<String>;
-  label_starts_with?: Maybe<String>;
-  label_not_starts_with?: Maybe<String>;
-  label_ends_with?: Maybe<String>;
-  label_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ChoiceScalarWhereInput[] | ChoiceScalarWhereInput>;
-  OR?: Maybe<ChoiceScalarWhereInput[] | ChoiceScalarWhereInput>;
-  NOT?: Maybe<ChoiceScalarWhereInput[] | ChoiceScalarWhereInput>;
-}
-
-export interface UserUpdateDataInput {
+export interface UserUpdateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
@@ -575,13 +465,52 @@ export interface UserUpdateDataInput {
   permissions?: Maybe<UserUpdatepermissionsInput>;
 }
 
-export interface FormCreateInput {
+export interface ChoiceCreateInput {
+  id?: Maybe<ID_Input>;
+  label: String;
+}
+
+export interface FormUpsertWithoutQuestionsInput {
+  update: FormUpdateWithoutQuestionsDataInput;
+  create: FormCreateWithoutQuestionsInput;
+}
+
+export interface ChoiceUpdateInput {
+  label?: Maybe<String>;
+}
+
+export interface FormUpdateWithoutQuestionsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  largeImage?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredInput>;
+}
+
+export interface ChoiceUpdateManyMutationInput {
+  label?: Maybe<String>;
+}
+
+export interface QuestionUpdateInput {
+  type?: Maybe<QuestionType>;
+  question?: Maybe<String>;
+  description?: Maybe<String>;
+  form?: Maybe<FormUpdateOneWithoutQuestionsInput>;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface FormCreateWithoutQuestionsInput {
   id?: Maybe<ID_Input>;
   title: String;
   description: String;
   image?: Maybe<String>;
   largeImage?: Maybe<String>;
-  questions?: Maybe<QuestionCreateManyInput>;
   user: UserCreateOneInput;
 }
 
@@ -591,223 +520,39 @@ export interface QuestionUpdateManyDataInput {
   description?: Maybe<String>;
 }
 
-export interface ChoiceUpsertWithWhereUniqueNestedInput {
-  where: ChoiceWhereUniqueInput;
-  update: ChoiceUpdateDataInput;
-  create: ChoiceCreateInput;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
 export interface QuestionCreateInput {
   id?: Maybe<ID_Input>;
   type: QuestionType;
   question: String;
   description?: Maybe<String>;
-  choices?: Maybe<ChoiceCreateManyInput>;
+  form?: Maybe<FormCreateOneWithoutQuestionsInput>;
 }
 
-export interface QuestionWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  type?: Maybe<QuestionType>;
-  type_not?: Maybe<QuestionType>;
-  type_in?: Maybe<QuestionType[] | QuestionType>;
-  type_not_in?: Maybe<QuestionType[] | QuestionType>;
-  question?: Maybe<String>;
-  question_not?: Maybe<String>;
-  question_in?: Maybe<String[] | String>;
-  question_not_in?: Maybe<String[] | String>;
-  question_lt?: Maybe<String>;
-  question_lte?: Maybe<String>;
-  question_gt?: Maybe<String>;
-  question_gte?: Maybe<String>;
-  question_contains?: Maybe<String>;
-  question_not_contains?: Maybe<String>;
-  question_starts_with?: Maybe<String>;
-  question_not_starts_with?: Maybe<String>;
-  question_ends_with?: Maybe<String>;
-  question_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  choices_every?: Maybe<ChoiceWhereInput>;
-  choices_some?: Maybe<ChoiceWhereInput>;
-  choices_none?: Maybe<ChoiceWhereInput>;
-  AND?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
-  OR?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
-  NOT?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
+export interface QuestionUpdateManyWithWhereNestedInput {
+  where: QuestionScalarWhereInput;
+  data: QuestionUpdateManyDataInput;
 }
 
-export interface ChoiceCreateManyInput {
-  create?: Maybe<ChoiceCreateInput[] | ChoiceCreateInput>;
-  connect?: Maybe<ChoiceWhereUniqueInput[] | ChoiceWhereUniqueInput>;
-}
-
-export interface QuestionUpdateManyMutationInput {
-  type?: Maybe<QuestionType>;
-  question?: Maybe<String>;
-  description?: Maybe<String>;
-}
-
-export interface UserCreateOneInput {
-  create?: Maybe<UserCreateInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface ChoiceWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  label?: Maybe<String>;
-  label_not?: Maybe<String>;
-  label_in?: Maybe<String[] | String>;
-  label_not_in?: Maybe<String[] | String>;
-  label_lt?: Maybe<String>;
-  label_lte?: Maybe<String>;
-  label_gt?: Maybe<String>;
-  label_gte?: Maybe<String>;
-  label_contains?: Maybe<String>;
-  label_not_contains?: Maybe<String>;
-  label_starts_with?: Maybe<String>;
-  label_not_starts_with?: Maybe<String>;
-  label_ends_with?: Maybe<String>;
-  label_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ChoiceWhereInput[] | ChoiceWhereInput>;
-  OR?: Maybe<ChoiceWhereInput[] | ChoiceWhereInput>;
-  NOT?: Maybe<ChoiceWhereInput[] | ChoiceWhereInput>;
-}
-
-export interface ChoiceUpdateDataInput {
-  label?: Maybe<String>;
-}
-
-export type QuestionWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface UserCreatepermissionsInput {
-  set?: Maybe<Permission[] | Permission>;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
-
-export interface FormUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  largeImage?: Maybe<String>;
-  questions?: Maybe<QuestionUpdateManyInput>;
-  user?: Maybe<UserUpdateOneRequiredInput>;
-}
-
-export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  resetToken?: Maybe<String>;
-  resetTokenExpiry?: Maybe<String>;
-  permissions?: Maybe<UserUpdatepermissionsInput>;
-}
-
-export interface ChoiceUpdateManyInput {
-  create?: Maybe<ChoiceCreateInput[] | ChoiceCreateInput>;
-  update?: Maybe<
-    | ChoiceUpdateWithWhereUniqueNestedInput[]
-    | ChoiceUpdateWithWhereUniqueNestedInput
+export interface QuestionSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<QuestionWhereInput>;
+  AND?: Maybe<
+    QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput
   >;
-  upsert?: Maybe<
-    | ChoiceUpsertWithWhereUniqueNestedInput[]
-    | ChoiceUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<ChoiceWhereUniqueInput[] | ChoiceWhereUniqueInput>;
-  connect?: Maybe<ChoiceWhereUniqueInput[] | ChoiceWhereUniqueInput>;
-  set?: Maybe<ChoiceWhereUniqueInput[] | ChoiceWhereUniqueInput>;
-  disconnect?: Maybe<ChoiceWhereUniqueInput[] | ChoiceWhereUniqueInput>;
-  deleteMany?: Maybe<ChoiceScalarWhereInput[] | ChoiceScalarWhereInput>;
-  updateMany?: Maybe<
-    | ChoiceUpdateManyWithWhereNestedInput[]
-    | ChoiceUpdateManyWithWhereNestedInput
+  OR?: Maybe<QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput>;
+  NOT?: Maybe<
+    QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput
   >;
 }
 
-export interface QuestionUpdateDataInput {
-  type?: Maybe<QuestionType>;
-  question?: Maybe<String>;
-  description?: Maybe<String>;
-  choices?: Maybe<ChoiceUpdateManyInput>;
-}
-
-export interface QuestionUpdateWithWhereUniqueNestedInput {
-  where: QuestionWhereUniqueInput;
-  data: QuestionUpdateDataInput;
-}
-
-export interface QuestionUpdateManyInput {
-  create?: Maybe<QuestionCreateInput[] | QuestionCreateInput>;
-  update?: Maybe<
-    | QuestionUpdateWithWhereUniqueNestedInput[]
-    | QuestionUpdateWithWhereUniqueNestedInput
+export interface QuestionCreateManyWithoutFormInput {
+  create?: Maybe<
+    QuestionCreateWithoutFormInput[] | QuestionCreateWithoutFormInput
   >;
-  upsert?: Maybe<
-    | QuestionUpsertWithWhereUniqueNestedInput[]
-    | QuestionUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
   connect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
-  set?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
-  disconnect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
-  deleteMany?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
-  updateMany?: Maybe<
-    | QuestionUpdateManyWithWhereNestedInput[]
-    | QuestionUpdateManyWithWhereNestedInput
-  >;
 }
 
 export interface FormWhereInput {
@@ -906,31 +651,246 @@ export interface FormWhereInput {
   NOT?: Maybe<FormWhereInput[] | FormWhereInput>;
 }
 
-export interface QuestionSubscriptionWhereInput {
+export interface QuestionCreateWithoutFormInput {
+  id?: Maybe<ID_Input>;
+  type: QuestionType;
+  question: String;
+  description?: Maybe<String>;
+}
+
+export interface QuestionUpdateManyMutationInput {
+  type?: Maybe<QuestionType>;
+  question?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface FormUpdateOneWithoutQuestionsInput {
+  create?: Maybe<FormCreateWithoutQuestionsInput>;
+  update?: Maybe<FormUpdateWithoutQuestionsDataInput>;
+  upsert?: Maybe<FormUpsertWithoutQuestionsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<FormWhereUniqueInput>;
+}
+
+export interface QuestionScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  type?: Maybe<QuestionType>;
+  type_not?: Maybe<QuestionType>;
+  type_in?: Maybe<QuestionType[] | QuestionType>;
+  type_not_in?: Maybe<QuestionType[] | QuestionType>;
+  question?: Maybe<String>;
+  question_not?: Maybe<String>;
+  question_in?: Maybe<String[] | String>;
+  question_not_in?: Maybe<String[] | String>;
+  question_lt?: Maybe<String>;
+  question_lte?: Maybe<String>;
+  question_gt?: Maybe<String>;
+  question_gte?: Maybe<String>;
+  question_contains?: Maybe<String>;
+  question_not_contains?: Maybe<String>;
+  question_starts_with?: Maybe<String>;
+  question_not_starts_with?: Maybe<String>;
+  question_ends_with?: Maybe<String>;
+  question_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  AND?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
+  OR?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
+  NOT?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
+}
+
+export interface FormCreateOneWithoutQuestionsInput {
+  create?: Maybe<FormCreateWithoutQuestionsInput>;
+  connect?: Maybe<FormWhereUniqueInput>;
+}
+
+export interface UserCreatepermissionsInput {
+  set?: Maybe<Permission[] | Permission>;
+}
+
+export interface QuestionWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  type?: Maybe<QuestionType>;
+  type_not?: Maybe<QuestionType>;
+  type_in?: Maybe<QuestionType[] | QuestionType>;
+  type_not_in?: Maybe<QuestionType[] | QuestionType>;
+  question?: Maybe<String>;
+  question_not?: Maybe<String>;
+  question_in?: Maybe<String[] | String>;
+  question_not_in?: Maybe<String[] | String>;
+  question_lt?: Maybe<String>;
+  question_lte?: Maybe<String>;
+  question_gt?: Maybe<String>;
+  question_gte?: Maybe<String>;
+  question_contains?: Maybe<String>;
+  question_not_contains?: Maybe<String>;
+  question_starts_with?: Maybe<String>;
+  question_not_starts_with?: Maybe<String>;
+  question_ends_with?: Maybe<String>;
+  question_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  form?: Maybe<FormWhereInput>;
+  AND?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
+  OR?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
+  NOT?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
+}
+
+export interface QuestionUpdateWithoutFormDataInput {
+  type?: Maybe<QuestionType>;
+  question?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface QuestionUpdateWithWhereUniqueWithoutFormInput {
+  where: QuestionWhereUniqueInput;
+  data: QuestionUpdateWithoutFormDataInput;
+}
+
+export interface QuestionUpdateManyWithoutFormInput {
+  create?: Maybe<
+    QuestionCreateWithoutFormInput[] | QuestionCreateWithoutFormInput
+  >;
+  delete?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
+  connect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
+  set?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
+  disconnect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
+  update?: Maybe<
+    | QuestionUpdateWithWhereUniqueWithoutFormInput[]
+    | QuestionUpdateWithWhereUniqueWithoutFormInput
+  >;
+  upsert?: Maybe<
+    | QuestionUpsertWithWhereUniqueWithoutFormInput[]
+    | QuestionUpsertWithWhereUniqueWithoutFormInput
+  >;
+  deleteMany?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
+  updateMany?: Maybe<
+    | QuestionUpdateManyWithWhereNestedInput[]
+    | QuestionUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface FormUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  largeImage?: Maybe<String>;
+  questions?: Maybe<QuestionUpdateManyWithoutFormInput>;
+  user?: Maybe<UserUpdateOneRequiredInput>;
+}
+
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  resetToken?: Maybe<String>;
+  resetTokenExpiry?: Maybe<String>;
+  permissions?: Maybe<UserUpdatepermissionsInput>;
+}
+
+export interface UserSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<QuestionWhereInput>;
-  AND?: Maybe<
-    QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput
-  >;
-  OR?: Maybe<QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput>;
-  NOT?: Maybe<
-    QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput
-  >;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface UserUpdateOneRequiredInput {
-  create?: Maybe<UserCreateInput>;
-  update?: Maybe<UserUpdateDataInput>;
-  upsert?: Maybe<UserUpsertNestedInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
+export type QuestionWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+export interface ChoiceWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  label?: Maybe<String>;
+  label_not?: Maybe<String>;
+  label_in?: Maybe<String[] | String>;
+  label_not_in?: Maybe<String[] | String>;
+  label_lt?: Maybe<String>;
+  label_lte?: Maybe<String>;
+  label_gt?: Maybe<String>;
+  label_gte?: Maybe<String>;
+  label_contains?: Maybe<String>;
+  label_not_contains?: Maybe<String>;
+  label_starts_with?: Maybe<String>;
+  label_not_starts_with?: Maybe<String>;
+  label_ends_with?: Maybe<String>;
+  label_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ChoiceWhereInput[] | ChoiceWhereInput>;
+  OR?: Maybe<ChoiceWhereInput[] | ChoiceWhereInput>;
+  NOT?: Maybe<ChoiceWhereInput[] | ChoiceWhereInput>;
 }
 
 export interface NodeNode {
@@ -1159,15 +1119,7 @@ export interface QuestionPromise extends Promise<Question>, Fragmentable {
   type: () => Promise<QuestionType>;
   question: () => Promise<String>;
   description: () => Promise<String>;
-  choices: <T = FragmentableArray<Choice>>(args?: {
-    where?: ChoiceWhereInput;
-    orderBy?: ChoiceOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  form: <T = FormPromise>() => T;
 }
 
 export interface QuestionSubscription
@@ -1177,15 +1129,7 @@ export interface QuestionSubscription
   type: () => Promise<AsyncIterator<QuestionType>>;
   question: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
-  choices: <T = Promise<AsyncIterator<ChoiceSubscription>>>(args?: {
-    where?: ChoiceWhereInput;
-    orderBy?: ChoiceOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  form: <T = FormSubscription>() => T;
 }
 
 export interface QuestionNullablePromise
@@ -1195,15 +1139,7 @@ export interface QuestionNullablePromise
   type: () => Promise<QuestionType>;
   question: () => Promise<String>;
   description: () => Promise<String>;
-  choices: <T = FragmentableArray<Choice>>(args?: {
-    where?: ChoiceWhereInput;
-    orderBy?: ChoiceOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  form: <T = FormPromise>() => T;
 }
 
 export interface BatchPayload {

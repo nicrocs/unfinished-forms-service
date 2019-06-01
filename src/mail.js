@@ -1,11 +1,11 @@
 const nodemailer = require("nodemailer");
-
+const config = require("../config/project.config");
 const transport = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
+  host: config[process.env.NODE_ENV].mailHost,
+  port: config[process.env.NODE_ENV].mailPort,
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS
+    user: config[process.env.NODE_ENV].mailUser,
+    pass: config[process.env.NODE_ENV].mailPass
   }
 });
 
@@ -20,7 +20,7 @@ const makeANiceEmail = text => `
     <h2>Hello There!</h2>
     <p>${text}</p>
 
-    <p>😘, Wes Bos</p>
+    <p>😘, Unfinished Forms</p>
   </div>
 `;
 

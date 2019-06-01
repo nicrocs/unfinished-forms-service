@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/nicholas-a-guest-jelley/nic-curvy-yoga/dev
-# timestamp: Sun May 19 2019 22:01:56 GMT-0700 (PDT)
+# timestamp: Sun May 26 2019 21:42:38 GMT-0700 (Pacific Daylight Time)
 
 type AggregateChoice {
   count: Int!
@@ -42,11 +42,6 @@ input ChoiceCreateInput {
   label: String!
 }
 
-input ChoiceCreateManyInput {
-  create: [ChoiceCreateInput!]
-  connect: [ChoiceWhereUniqueInput!]
-}
-
 """An edge in a connection."""
 type ChoiceEdge {
   """The item at the end of the edge."""
@@ -68,97 +63,6 @@ type ChoicePreviousValues {
   label: String!
 }
 
-input ChoiceScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ChoiceScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ChoiceScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ChoiceScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  label: String
-
-  """All values that are not equal to given value."""
-  label_not: String
-
-  """All values that are contained in given list."""
-  label_in: [String!]
-
-  """All values that are not contained in given list."""
-  label_not_in: [String!]
-
-  """All values less than the given value."""
-  label_lt: String
-
-  """All values less than or equal the given value."""
-  label_lte: String
-
-  """All values greater than the given value."""
-  label_gt: String
-
-  """All values greater than or equal the given value."""
-  label_gte: String
-
-  """All values containing the given string."""
-  label_contains: String
-
-  """All values not containing the given string."""
-  label_not_contains: String
-
-  """All values starting with the given string."""
-  label_starts_with: String
-
-  """All values not starting with the given string."""
-  label_not_starts_with: String
-
-  """All values ending with the given string."""
-  label_ends_with: String
-
-  """All values not ending with the given string."""
-  label_not_ends_with: String
-}
-
 type ChoiceSubscriptionPayload {
   mutation: MutationType!
   node: Choice
@@ -176,9 +80,7 @@ input ChoiceSubscriptionWhereInput {
   """Logical NOT on all given filters combined by AND."""
   NOT: [ChoiceSubscriptionWhereInput!]
 
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
+  """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
 
   """
@@ -198,48 +100,12 @@ input ChoiceSubscriptionWhereInput {
   node: ChoiceWhereInput
 }
 
-input ChoiceUpdateDataInput {
-  label: String
-}
-
 input ChoiceUpdateInput {
   label: String
 }
 
-input ChoiceUpdateManyDataInput {
-  label: String
-}
-
-input ChoiceUpdateManyInput {
-  create: [ChoiceCreateInput!]
-  connect: [ChoiceWhereUniqueInput!]
-  set: [ChoiceWhereUniqueInput!]
-  disconnect: [ChoiceWhereUniqueInput!]
-  delete: [ChoiceWhereUniqueInput!]
-  update: [ChoiceUpdateWithWhereUniqueNestedInput!]
-  updateMany: [ChoiceUpdateManyWithWhereNestedInput!]
-  deleteMany: [ChoiceScalarWhereInput!]
-  upsert: [ChoiceUpsertWithWhereUniqueNestedInput!]
-}
-
 input ChoiceUpdateManyMutationInput {
   label: String
-}
-
-input ChoiceUpdateManyWithWhereNestedInput {
-  where: ChoiceScalarWhereInput!
-  data: ChoiceUpdateManyDataInput!
-}
-
-input ChoiceUpdateWithWhereUniqueNestedInput {
-  where: ChoiceWhereUniqueInput!
-  data: ChoiceUpdateDataInput!
-}
-
-input ChoiceUpsertWithWhereUniqueNestedInput {
-  where: ChoiceWhereUniqueInput!
-  update: ChoiceUpdateDataInput!
-  create: ChoiceCreateInput!
 }
 
 input ChoiceWhereInput {
@@ -367,7 +233,21 @@ input FormCreateInput {
   description: String!
   image: String
   largeImage: String
-  questions: QuestionCreateManyInput
+  questions: QuestionCreateManyWithoutFormInput
+  user: UserCreateOneInput!
+}
+
+input FormCreateOneWithoutQuestionsInput {
+  create: FormCreateWithoutQuestionsInput
+  connect: FormWhereUniqueInput
+}
+
+input FormCreateWithoutQuestionsInput {
+  id: ID
+  title: String!
+  description: String!
+  image: String
+  largeImage: String
   user: UserCreateOneInput!
 }
 
@@ -424,9 +304,7 @@ input FormSubscriptionWhereInput {
   """Logical NOT on all given filters combined by AND."""
   NOT: [FormSubscriptionWhereInput!]
 
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
+  """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
 
   """
@@ -451,7 +329,7 @@ input FormUpdateInput {
   description: String
   image: String
   largeImage: String
-  questions: QuestionUpdateManyInput
+  questions: QuestionUpdateManyWithoutFormInput
   user: UserUpdateOneRequiredInput
 }
 
@@ -460,6 +338,28 @@ input FormUpdateManyMutationInput {
   description: String
   image: String
   largeImage: String
+}
+
+input FormUpdateOneWithoutQuestionsInput {
+  create: FormCreateWithoutQuestionsInput
+  connect: FormWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: FormUpdateWithoutQuestionsDataInput
+  upsert: FormUpsertWithoutQuestionsInput
+}
+
+input FormUpdateWithoutQuestionsDataInput {
+  title: String
+  description: String
+  image: String
+  largeImage: String
+  user: UserUpdateOneRequiredInput
+}
+
+input FormUpsertWithoutQuestionsInput {
+  update: FormUpdateWithoutQuestionsDataInput!
+  create: FormCreateWithoutQuestionsInput!
 }
 
 input FormWhereInput {
@@ -732,30 +632,30 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
+  createChoice(data: ChoiceCreateInput!): Choice!
+  createQuestion(data: QuestionCreateInput!): Question!
   createForm(data: FormCreateInput!): Form!
   createUser(data: UserCreateInput!): User!
-  createQuestion(data: QuestionCreateInput!): Question!
-  createChoice(data: ChoiceCreateInput!): Choice!
+  updateChoice(data: ChoiceUpdateInput!, where: ChoiceWhereUniqueInput!): Choice
+  updateQuestion(data: QuestionUpdateInput!, where: QuestionWhereUniqueInput!): Question
   updateForm(data: FormUpdateInput!, where: FormWhereUniqueInput!): Form
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateQuestion(data: QuestionUpdateInput!, where: QuestionWhereUniqueInput!): Question
-  updateChoice(data: ChoiceUpdateInput!, where: ChoiceWhereUniqueInput!): Choice
+  deleteChoice(where: ChoiceWhereUniqueInput!): Choice
+  deleteQuestion(where: QuestionWhereUniqueInput!): Question
   deleteForm(where: FormWhereUniqueInput!): Form
   deleteUser(where: UserWhereUniqueInput!): User
-  deleteQuestion(where: QuestionWhereUniqueInput!): Question
-  deleteChoice(where: ChoiceWhereUniqueInput!): Choice
+  upsertChoice(where: ChoiceWhereUniqueInput!, create: ChoiceCreateInput!, update: ChoiceUpdateInput!): Choice!
+  upsertQuestion(where: QuestionWhereUniqueInput!, create: QuestionCreateInput!, update: QuestionUpdateInput!): Question!
   upsertForm(where: FormWhereUniqueInput!, create: FormCreateInput!, update: FormUpdateInput!): Form!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertQuestion(where: QuestionWhereUniqueInput!, create: QuestionCreateInput!, update: QuestionUpdateInput!): Question!
-  upsertChoice(where: ChoiceWhereUniqueInput!, create: ChoiceCreateInput!, update: ChoiceUpdateInput!): Choice!
+  updateManyChoices(data: ChoiceUpdateManyMutationInput!, where: ChoiceWhereInput): BatchPayload!
+  updateManyQuestions(data: QuestionUpdateManyMutationInput!, where: QuestionWhereInput): BatchPayload!
   updateManyForms(data: FormUpdateManyMutationInput!, where: FormWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateManyQuestions(data: QuestionUpdateManyMutationInput!, where: QuestionWhereInput): BatchPayload!
-  updateManyChoices(data: ChoiceUpdateManyMutationInput!, where: ChoiceWhereInput): BatchPayload!
+  deleteManyChoices(where: ChoiceWhereInput): BatchPayload!
+  deleteManyQuestions(where: QuestionWhereInput): BatchPayload!
   deleteManyForms(where: FormWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  deleteManyQuestions(where: QuestionWhereInput): BatchPayload!
-  deleteManyChoices(where: ChoiceWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -795,18 +695,18 @@ enum Permission {
 }
 
 type Query {
+  choices(where: ChoiceWhereInput, orderBy: ChoiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Choice]!
+  questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question]!
   forms(where: FormWhereInput, orderBy: FormOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Form]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question]!
-  choices(where: ChoiceWhereInput, orderBy: ChoiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Choice]!
+  choice(where: ChoiceWhereUniqueInput!): Choice
+  question(where: QuestionWhereUniqueInput!): Question
   form(where: FormWhereUniqueInput!): Form
   user(where: UserWhereUniqueInput!): User
-  question(where: QuestionWhereUniqueInput!): Question
-  choice(where: ChoiceWhereUniqueInput!): Choice
+  choicesConnection(where: ChoiceWhereInput, orderBy: ChoiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChoiceConnection!
+  questionsConnection(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuestionConnection!
   formsConnection(where: FormWhereInput, orderBy: FormOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FormConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  questionsConnection(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuestionConnection!
-  choicesConnection(where: ChoiceWhereInput, orderBy: ChoiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChoiceConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -820,7 +720,7 @@ type Question implements Node {
   type: QuestionType!
   question: String!
   description: String
-  choices(where: ChoiceWhereInput, orderBy: ChoiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Choice!]
+  form: Form
 }
 
 """A connection to a list of items."""
@@ -838,12 +738,19 @@ input QuestionCreateInput {
   type: QuestionType!
   question: String!
   description: String
-  choices: ChoiceCreateManyInput
+  form: FormCreateOneWithoutQuestionsInput
 }
 
-input QuestionCreateManyInput {
-  create: [QuestionCreateInput!]
+input QuestionCreateManyWithoutFormInput {
+  create: [QuestionCreateWithoutFormInput!]
   connect: [QuestionWhereUniqueInput!]
+}
+
+input QuestionCreateWithoutFormInput {
+  id: ID
+  type: QuestionType!
+  question: String!
+  description: String
 }
 
 """An edge in a connection."""
@@ -1031,9 +938,7 @@ input QuestionSubscriptionWhereInput {
   """Logical NOT on all given filters combined by AND."""
   NOT: [QuestionSubscriptionWhereInput!]
 
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
+  """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
 
   """
@@ -1060,18 +965,11 @@ enum QuestionType {
   CHECKBOXES
 }
 
-input QuestionUpdateDataInput {
-  type: QuestionType
-  question: String
-  description: String
-  choices: ChoiceUpdateManyInput
-}
-
 input QuestionUpdateInput {
   type: QuestionType
   question: String
   description: String
-  choices: ChoiceUpdateManyInput
+  form: FormUpdateOneWithoutQuestionsInput
 }
 
 input QuestionUpdateManyDataInput {
@@ -1080,22 +978,22 @@ input QuestionUpdateManyDataInput {
   description: String
 }
 
-input QuestionUpdateManyInput {
-  create: [QuestionCreateInput!]
-  connect: [QuestionWhereUniqueInput!]
-  set: [QuestionWhereUniqueInput!]
-  disconnect: [QuestionWhereUniqueInput!]
-  delete: [QuestionWhereUniqueInput!]
-  update: [QuestionUpdateWithWhereUniqueNestedInput!]
-  updateMany: [QuestionUpdateManyWithWhereNestedInput!]
-  deleteMany: [QuestionScalarWhereInput!]
-  upsert: [QuestionUpsertWithWhereUniqueNestedInput!]
-}
-
 input QuestionUpdateManyMutationInput {
   type: QuestionType
   question: String
   description: String
+}
+
+input QuestionUpdateManyWithoutFormInput {
+  create: [QuestionCreateWithoutFormInput!]
+  connect: [QuestionWhereUniqueInput!]
+  set: [QuestionWhereUniqueInput!]
+  disconnect: [QuestionWhereUniqueInput!]
+  delete: [QuestionWhereUniqueInput!]
+  update: [QuestionUpdateWithWhereUniqueWithoutFormInput!]
+  updateMany: [QuestionUpdateManyWithWhereNestedInput!]
+  deleteMany: [QuestionScalarWhereInput!]
+  upsert: [QuestionUpsertWithWhereUniqueWithoutFormInput!]
 }
 
 input QuestionUpdateManyWithWhereNestedInput {
@@ -1103,15 +1001,21 @@ input QuestionUpdateManyWithWhereNestedInput {
   data: QuestionUpdateManyDataInput!
 }
 
-input QuestionUpdateWithWhereUniqueNestedInput {
-  where: QuestionWhereUniqueInput!
-  data: QuestionUpdateDataInput!
+input QuestionUpdateWithoutFormDataInput {
+  type: QuestionType
+  question: String
+  description: String
 }
 
-input QuestionUpsertWithWhereUniqueNestedInput {
+input QuestionUpdateWithWhereUniqueWithoutFormInput {
   where: QuestionWhereUniqueInput!
-  update: QuestionUpdateDataInput!
-  create: QuestionCreateInput!
+  data: QuestionUpdateWithoutFormDataInput!
+}
+
+input QuestionUpsertWithWhereUniqueWithoutFormInput {
+  where: QuestionWhereUniqueInput!
+  update: QuestionUpdateWithoutFormDataInput!
+  create: QuestionCreateWithoutFormInput!
 }
 
 input QuestionWhereInput {
@@ -1253,9 +1157,7 @@ input QuestionWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
-  choices_every: ChoiceWhereInput
-  choices_some: ChoiceWhereInput
-  choices_none: ChoiceWhereInput
+  form: FormWhereInput
 }
 
 input QuestionWhereUniqueInput {
@@ -1263,10 +1165,10 @@ input QuestionWhereUniqueInput {
 }
 
 type Subscription {
+  choice(where: ChoiceSubscriptionWhereInput): ChoiceSubscriptionPayload
+  question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload
   form(where: FormSubscriptionWhereInput): FormSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload
-  choice(where: ChoiceSubscriptionWhereInput): ChoiceSubscriptionPayload
 }
 
 type User implements Node {
@@ -1359,9 +1261,7 @@ input UserSubscriptionWhereInput {
   """Logical NOT on all given filters combined by AND."""
   NOT: [UserSubscriptionWhereInput!]
 
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
+  """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
 
   """
