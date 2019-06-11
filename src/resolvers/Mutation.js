@@ -30,15 +30,8 @@ const mutations = {
     return form;
   },
   updateForm(parent, args, ctx, info) {
-    // if __typename the question already exists, if not,
-    const questions = args.questions.map(({ id, ...rest }) => ({
-      ...rest
-    }));
     const updates = {
-      ...args,
-      questions: {
-        create: [...questions]
-      }
+      ...args
     };
     delete updates.id;
     return ctx.db.mutation.updateForm(

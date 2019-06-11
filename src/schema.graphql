@@ -15,6 +15,8 @@ type Mutation {
     id: ID!
     title: String
     description: String
+    image: String
+    largeImage: String
     questions: [QuestionCreateWithoutFormInput]
   ): Form!
   deleteForm(id: ID!): Form
